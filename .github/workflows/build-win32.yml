@@ -52,8 +52,11 @@ jobs:
         mkdir build && cd build
 
         cmake .. -G Ninja
-        -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF
+        -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON
         -DAVIF_CODEC_DAV1D=ON -DAVIF_LOCAL_DAV1D=ON
+    - name: moving
+      run: >
+        mv ./ext/dav1d/build ./build
     - name: Build libavif (ninja)
       working-directory: ./build
       run: ninja
