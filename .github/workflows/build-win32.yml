@@ -44,7 +44,7 @@ jobs:
     - run: pip install meson
     - name: Build dav1d
       working-directory: ./ext
-      run: >
+      run: |
         cd dav1d
         mkdir build
         cd build
