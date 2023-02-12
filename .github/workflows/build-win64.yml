@@ -10,7 +10,7 @@
 #   * Builds with local libjpeg (-DAVIF_LOCAL_JPEG=ON).
 #   * Builds with local zlib and libpng (-DAVIF_LOCAL_ZLIBPNG=ON).
 
-name: win32
+name: win64
 on: [push, pull_request]
 jobs:
   build:
@@ -43,15 +43,10 @@ jobs:
     - uses: seanmiddleditch/gha-setup-ninja@v3
     - run: pip install meson
     - name: Build dav1d
+      if: steps.cache-ext.outputs.cache-hit != 'true'
       working-directory: ./ext
-      run: |
-        git clone -b 1.0.0 --depth 1 https://code.videolan.org/videolan/dav1d.git
-        cd dav1d
-        mkdir build
-        cd build
-        meson --default-library=static --buildtype release ..
-        ninja 
-        cd ../..
+      run: ./dav1d.cmd
+
     - name: Prepare libavif (cmake)
       run: >
         mkdir build && cd build
@@ -59,6 +54,9 @@ jobs:
         cmake .. -G Ninja
         -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF
         -DAVIF_CODEC_DAV1D=ON -DAVIF_LOCAL_DAV1D=ON
+    - name: Build libavif (ninja)
+      working-directory: ./build
+      run: ninja
     - name: moving
       run: >
         mv ./ext/dav1d/build ./build
