@@ -60,9 +60,6 @@ jobs:
     - name: moving
       run: >
         mv ./ext/dav1d/build ./build
-    - name: Build libavif (ninja)
-      working-directory: ./build
-      run: ninja
     - name: Upload output
       uses: actions/upload-artifact@v3
       with:
