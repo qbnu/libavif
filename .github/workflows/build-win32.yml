@@ -43,10 +43,14 @@ jobs:
     - uses: seanmiddleditch/gha-setup-ninja@v3
     - run: pip install meson
     - name: Build dav1d
-      if: steps.cache-ext.outputs.cache-hit != 'true'
       working-directory: ./ext
-      run: ./dav1d.cmd
-
+      run: >
+        cd dav1d
+        mkdir build
+        cd build
+        meson --buildtype release ..
+        ninja
+        cd ../..
     - name: Prepare libavif (cmake)
       run: >
         mkdir build && cd build
