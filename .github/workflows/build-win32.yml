@@ -58,7 +58,7 @@ jobs:
       working-directory: ./build
       run: ninja
     - name: Upload output
-        uses: actions/upload-artifact@v3
-        with:
-          name: releaselibavif64
-          path: build
+      uses: actions/upload-artifact@v3
+      with:
+        name: releaselibavif64
+        path: build
