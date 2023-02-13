@@ -67,4 +67,3 @@ jobs:
       with:
         name: releaselibavif32
         path: build
-
