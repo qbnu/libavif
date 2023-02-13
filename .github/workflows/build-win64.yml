@@ -50,6 +50,10 @@ jobs:
       if: steps.cache-ext.outputs.cache-hit != 'true'
       working-directory: ./ext
       run: ./libyuv.cmd
+    - name: Build libsharpyuv
+      if: steps.cache-ext.outputs.cache-hit != 'true'
+      working-directory: ./ext
+      run: ./libsharpyuv.cmd
 
     - name: Prepare libavif (cmake)
       run: >
@@ -58,13 +62,14 @@ jobs:
         cmake .. -G Ninja
         -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF
         -DAVIF_CODEC_DAV1D=ON -DAVIF_LOCAL_DAV1D=ON
-        -DAVIF_LOCAL_LIBYUV=ON
+        -DAVIF_LOCAL_LIBYUV=ON -DAVIF_LOCAL_LIBSHARPYUV=ON
     - name: Build libavif (ninja)
       working-directory: ./build
       run: ninja
     - name: moving
-      run: >
-        mv ./ext/libyuv/build ./build
+      run: |
+        mv ./ext/libyuv/build/yuv.lib ./build
+        mv ./ext/libwebp/build/libsharpyuv.lib ./build
     - name: Upload output
       uses: actions/upload-artifact@v3
       with:
