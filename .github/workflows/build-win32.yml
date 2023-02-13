@@ -65,8 +65,9 @@ jobs:
       working-directory: ./build
       run: ninja
     - name: moving
-      run: >
-        mv ./ext/libyuv/build ./build
+      run: |
+        mv ./ext/libyuv/build/yuv.lib ./build
+        mv ./ext/libwebp/build/libsharpyuv.lib ./build
     - name: Upload output
       uses: actions/upload-artifact@v3
       with:
